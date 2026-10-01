@@ -1,0 +1,39 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Launch API",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/RPG_API/bin/Debug/net10.0/RPG_API.dll",
+            "cwd": "${workspaceFolder}/RPG_API",
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5265"
+            },
+            "console": "integratedTerminal",
+            "stopAtEntry": false,
+            "preLaunchTask": "build-api"
+        },
+        {
+            "name": ".NET Launch Console",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/RPG_Console/bin/Debug/net10.0/RPG_Console.dll",
+            "cwd": "${workspaceFolder}/RPG_Console",
+            "console": "externalTerminal",
+            "stopAtEntry": false,
+            "preLaunchTask": "build-console"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "API + Console",
+            "configurations": [
+                ".NET Launch API",
+                ".NET Launch Console"
+            ],
+            "stopAll": true
+        }
+    ]
+}

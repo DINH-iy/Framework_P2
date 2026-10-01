@@ -1,0 +1,44 @@
+# Build output
+**/bin/
+**/obj/
+
+# Visual Studio and .NET user files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# JetBrains and ReSharper
+.idea/
+_ReSharper*/
+*.DotSettings.user
+
+# Test and coverage output
+TestResults/
+coverage/
+*.trx
+
+# Local databases and database files
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Generated tool output
+artifacts/
+
+# Local secrets and environment overrides
+appsettings.*.local.json
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
