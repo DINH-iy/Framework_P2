@@ -21,8 +21,6 @@ public class GameStateService
         var game = await _context.Games
             .Include(item => item.Player)
             .Include(item => item.CurrentEnemy)
-            .Include(item => item.Player.Items)
-            .ThenInclude(playerItem => playerItem.Item)
             .FirstOrDefaultAsync(item => item.Id == gameId);
 
         if (game is null)

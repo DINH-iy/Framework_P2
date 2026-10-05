@@ -92,20 +92,17 @@ public static class ConsoleRenderer
     {
         Console.WriteLine("1. Light attack");
         Console.WriteLine("2. Heavy attack");
-        Console.WriteLine("3. Use item");
-        Console.WriteLine("4. Run");
-        Console.WriteLine("5. View status");
-        Console.WriteLine("6. Stop game");
+        Console.WriteLine("3. Run");
+        Console.WriteLine("4. View status");
+        Console.WriteLine("5. Stop game");
     }
 
     private static void DrawExplorationMenu()
     {
         Console.WriteLine("1. Continue to next level");
         Console.WriteLine("2. View inventory");
-        Console.WriteLine("3. Use item");
-        Console.WriteLine("4. Equip item");
-        Console.WriteLine("5. View status");
-        Console.WriteLine("6. Stop game");
+        Console.WriteLine("3. View status");
+        Console.WriteLine("4. Stop game");
     }
 
     private static void DrawPanelTitle(string title)
@@ -113,26 +110,6 @@ public static class ConsoleRenderer
         Console.WriteLine("+-----------------------------------------------+");
         Console.WriteLine($"| {title,-45}|");
         Console.WriteLine("+-----------------------------------------------+");
-    }
-
-    public static void ShowInventory(GameState game)
-    {
-        DrawPanelTitle("INVENTORY");
-        if (game.Inventory.Count == 0)
-        {
-            Console.WriteLine("Your inventory is empty.");
-        }
-        else
-        {
-            foreach (var item in game.Inventory)
-            {
-                var equippedText = item.IsEquipped ? " (equipped)" : "";
-                var equipText = item.CanEquip ? "" : " (cannot equip)";
-                Console.WriteLine($"{item.Slot}. {item.Name} x{item.Amount}{equippedText}{equipText}");
-            }
-        }
-
-        ConsoleInput.Pause();
     }
 
     public static void ShowEquipableItems(List<ItemState> items)

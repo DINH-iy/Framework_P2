@@ -18,10 +18,6 @@ public static class Program
 
         Configure(app);
 
-        if (app.Environment.IsDevelopment())
-        {
-            app.MapOpenApi();
-        }
         app.Run();
     }
 
@@ -52,8 +48,8 @@ public static class Program
         builder.Services.AddScoped<GameQueryService>();
         builder.Services.AddScoped<MovementService>();
         builder.Services.AddScoped<CombatGameService>();
-        builder.Services.AddScoped<InventoryService>();
-
+        builder.Services.AddScoped<CombatRoundService>();
+        
         builder.Services.AddControllers().AddJsonOptions(opts =>
         {
             opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());

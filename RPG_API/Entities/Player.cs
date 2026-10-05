@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Game.Domain.Entities;
 
@@ -11,7 +10,4 @@ public class Player
     public int Health { get; set; } = 100;
     public int Attack { get; set; } = 10;
     public int MaxHealth { get; set; } = 100;
-
-    [InverseProperty(nameof(PlayerItem.Player))]
-    public virtual ICollection<PlayerItem> Items { get; set; } = new List<PlayerItem>();
 }

@@ -9,10 +9,7 @@ public class CombatGameService
     private readonly GameStateService _gameState;
     private readonly CombatRoundService _combatRound;
 
-    public CombatGameService(
-        GameDbContext context,
-        GameStateService gameState,
-        CombatRoundService combatRound)
+    public CombatGameService(GameDbContext context, GameStateService gameState, CombatRoundService combatRound)
     {
         _context = context;
         _gameState = gameState;

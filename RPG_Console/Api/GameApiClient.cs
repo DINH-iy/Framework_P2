@@ -56,32 +56,6 @@ public class GameApiClient
         return await ReadGameStateAsync(response);
     }
 
-    public async Task<GameState> UseItemAsync(int gameId, int slot)
-    {
-        var response = await _httpClient.PostAsync($"api/game/{gameId}/items/{slot}/use", null);
-        return await ReadGameStateAsync(response);
-    }
-
-    public async Task<List<ItemState>> GetEquipableItemsAsync(int gameId)
-    {
-        var response = await _httpClient.GetAsync($"api/game/{gameId}/equipable-items");
-        if (!response.IsSuccessStatusCode)
-        {
-            var message = await response.Content.ReadAsStringAsync();
-            throw new HttpRequestException($"API returned {(int)response.StatusCode}: {message}");
-        }
-
-        return await response.Content.ReadFromJsonAsync<List<ItemState>>() ?? new List<ItemState>();
-    }
-
-    public async Task<GameState> EquipItemAsync(int gameId, int selection)
-    {
-        var response = await _httpClient.PostAsJsonAsync(
-            $"api/game/{gameId}/equip",
-            new { Selection = selection });
-        return await ReadGameStateAsync(response);
-    }
-
     private static async Task<GameState> ReadGameStateAsync(HttpResponseMessage response)
     {
         if (!response.IsSuccessStatusCode)

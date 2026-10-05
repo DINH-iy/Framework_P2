@@ -49,15 +49,8 @@ public class CombatRoundService
 
     private AttackResult CreatePlayerAttack(GameEntity game, AttackType attackType)
     {
-        var equippedItem = game.Player.Items.FirstOrDefault(item => item.IsEquipped);
         var attackPower = game.Player.Attack;
         var attackSpeed = 10;
-
-        if (equippedItem is not null)
-        {
-            attackPower += equippedItem.Item.AttackBonus;
-            attackSpeed += equippedItem.Item.Speed;
-        }
 
         return _combat.PerformAttack(attackPower, attackSpeed, attackType);
     }
@@ -68,11 +61,7 @@ public class CombatRoundService
         return _combat.PerformAttack(enemy.Damage, enemy.Speed, attackType);
     }
 
-    private static string ApplyPlayerAttack(
-        GameEntity game,
-        Enemy enemy,
-        AttackResult attack,
-        out int damageDealt)
+    private static string ApplyPlayerAttack(GameEntity game, Enemy enemy, AttackResult attack, out int damageDealt)
     {
         damageDealt = attack.Damage;
         game.CurrentEnemyHealth = Math.Max(

@@ -8,20 +8,13 @@ public class GameService
     private readonly GameQueryService _gameQuery;
     private readonly MovementService _movement;
     private readonly CombatGameService _combat;
-    private readonly InventoryService _inventory;
 
-    public GameService(
-        GameStartService gameStart,
-        GameQueryService gameQuery,
-        MovementService movement,
-        CombatGameService combat,
-        InventoryService inventory)
+    public GameService(GameStartService gameStart, GameQueryService gameQuery, MovementService movement, CombatGameService combat)
     {
         _gameStart = gameStart;
         _gameQuery = gameQuery;
         _movement = movement;
         _combat = combat;
-        _inventory = inventory;
     }
 
     public async Task<GameResponse> StartAsync(StartGameRequest request)
@@ -58,23 +51,5 @@ public class GameService
     {
         var game = await _combat.RunAsync(gameId);
         return game;
-    }
-
-    public async Task<GameResponse> UseItemAsync(int gameId, int slot)
-    {
-        var game = await _inventory.UseItemAsync(gameId, slot);
-        return game;
-    }
-
-    public async Task<GameResponse> EquipItemAsync(int gameId, int selection)
-    {
-        var game = await _inventory.EquipItemAsync(gameId, selection);
-        return game;
-    }
-
-    public async Task<List<ItemResponse>> GetEquipableItemsAsync(int gameId)
-    {
-        var items = await _inventory.GetEquipableItemsAsync(gameId);
-        return items;
     }
 }

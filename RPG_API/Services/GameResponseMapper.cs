@@ -39,8 +39,6 @@ public class GameResponseMapper
         };
 
         AddEnemyToResponse(game, response);
-        AddInventoryToResponse(game, response);
-
         return response;
     }
 
@@ -58,31 +56,6 @@ public class GameResponseMapper
             Damage = game.CurrentEnemy.Damage,
             Speed = game.CurrentEnemy.Speed
         };
-    }
-
-    private static void AddInventoryToResponse(GameEntity game, GameResponse response)
-    {
-        var inventoryItems = game.Player.Items
-            .OrderBy(item => item.ItemId)
-            .Take(4)
-            .ToList();
-
-        for (var index = 0; index < inventoryItems.Count; index++)
-        {
-            var item = inventoryItems[index];
-            response.Inventory.Add(new ItemResponse
-            {
-                Slot = index + 1,
-                Selection = index + 1,
-                Name = item.Item.Name,
-                Type = item.Item.Type.ToString(),
-                Amount = item.Amount,
-                AttackBonus = item.Item.AttackBonus,
-                Speed = item.Item.Speed,
-                IsEquipped = item.IsEquipped,
-                CanEquip = item.Item.Type == ItemType.Equipment
-            });
-        }
     }
 
 }

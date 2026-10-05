@@ -114,24 +114,11 @@ public class ConsoleGame
             case 1:
                 var movedGame = await _gameApi.MoveAsync(game.Id);
                 return new GameTurnResult(movedGame, true);
-
             case 2:
-                ConsoleRenderer.ShowInventory(game);
-                return new GameTurnResult(game, true);
-
-            case 3:
-                var gameAfterItem = await UseItemAsync(game);
-                return new GameTurnResult(gameAfterItem, true);
-
-            case 4:
-                var equippedGame = await EquipItemAsync(game);
-                return new GameTurnResult(equippedGame, true);
-
-            case 5:
                 ShowStatus(game);
                 return new GameTurnResult(game, true);
 
-            case 6:
+            case 3:
                 return new GameTurnResult(game, false);
 
             default:
@@ -152,57 +139,19 @@ public class ConsoleGame
                 return new GameTurnResult(heavyAttackGame, true);
 
             case 3:
-                var gameAfterItem = await UseItemAsync(game);
-                return new GameTurnResult(gameAfterItem, true);
-
-            case 4:
                 var escapedGame = await _gameApi.RunAsync(game.Id);
                 return new GameTurnResult(escapedGame, true);
 
-            case 5:
+            case 4:
                 ShowStatus(game);
                 return new GameTurnResult(game, true);
 
-            case 6:
+            case 5:
                 return new GameTurnResult(game, false);
 
             default:
                 return new GameTurnResult(game, true);
         }
-    }
-
-    private async Task<GameState> UseItemAsync(GameState game)
-    {
-        var slot = SelectInventorySlot(game);
-        if (slot == 0)
-            return game;
-
-        return await _gameApi.UseItemAsync(game.Id, slot);
-    }
-
-    private async Task<GameState> EquipItemAsync(GameState game)
-    {
-        var equipableItems = await _gameApi.GetEquipableItemsAsync(game.Id);
-        ConsoleRenderer.ShowEquipableItems(equipableItems);
-
-        if (equipableItems.Count == 0)
-        {
-            Console.WriteLine("There are no equipable items.");
-            ConsoleInput.Pause();
-            return game;
-        }
-
-        var selection = ConsoleInput.ReadOption(equipableItems.Count);
-        return await _gameApi.EquipItemAsync(game.Id, selection);
-    }
-
-    private static int SelectInventorySlot(GameState game)
-    {
-        ConsoleRenderer.ShowInventory(game);
-        if (game.Inventory.Count == 0)
-            return 0;
-
-        return ConsoleInput.ReadOption(game.Inventory.Count);
     }
 
     private static bool ShowStatus(GameState game)

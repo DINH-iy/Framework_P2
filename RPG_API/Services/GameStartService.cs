@@ -21,11 +21,6 @@ public class GameStartService
         var player = new Player
         {
             Name = request.PlayerName,
-            Items = new List<PlayerItem>
-            {
-                new() { ItemId = 1, Amount = 2 },
-                new() { ItemId = 2, Amount = 1 }
-            }
         };
 
         var game = new GameEntity

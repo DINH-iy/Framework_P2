@@ -55,25 +55,4 @@ public class GameController : ControllerBase
         var game = await _gameService.RunAsync(id);
         return Ok(game);
     }
-
-    [HttpPost("{id}/items/{slot}/use")]
-    public async Task<ActionResult<GameResponse>> UseItem(int id, int slot)
-    {
-        var game = await _gameService.UseItemAsync(id, slot);
-        return Ok(game);
-    }
-
-    [HttpPost("{id}/equip")]
-    public async Task<ActionResult<GameResponse>> EquipItem(int id, EquipItemRequest request)
-    {
-        var game = await _gameService.EquipItemAsync(id, request.Selection);
-        return Ok(game);
-    }
-
-    [HttpGet("{id}/equipable-items")]
-    public async Task<ActionResult<List<ItemResponse>>> GetEquipableItems(int id)
-    {
-        var items = await _gameService.GetEquipableItemsAsync(id);
-        return Ok(items);
-    }
 }
