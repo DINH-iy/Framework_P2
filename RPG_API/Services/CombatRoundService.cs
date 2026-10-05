@@ -55,7 +55,7 @@ public class CombatRoundService
 
         if (equippedItem is not null)
         {
-            attackPower += equippedItem.Item.Value;
+            attackPower += equippedItem.Item.AttackBonus;
             attackSpeed += equippedItem.Item.Speed;
         }
 
@@ -81,10 +81,8 @@ public class CombatRoundService
 
         var message = $"You use a {attack.Type} attack and deal {damageDealt} damage to the {enemy.Name}. ";
 
-        if (game.CurrentEnemyHealth == 0)
+        if (game.CurrentEnemyHealth <= 0)
         {
-            game.Player.Gold += enemy.RewardGold;
-            game.Player.Experience += enemy.RewardExperience;
             game.CurrentEnemy = null;
             game.CurrentEnemyId = null;
             game.CurrentEnemyHealth = null;
@@ -94,13 +92,9 @@ public class CombatRoundService
         return message;
     }
 
-    private static string ApplyEnemyAttack(
-        GameEntity game,
-        Enemy enemy,
-        AttackResult attack,
-        out int damageReceived)
+    private static string ApplyEnemyAttack(GameEntity game, Enemy enemy, AttackResult attack, out int damageReceived)
     {
-        damageReceived = Math.Max(0, attack.Damage - game.Player.Defense);
+        damageReceived = attack.Damage;
         game.Player.Health = Math.Max(0, game.Player.Health - damageReceived);
 
         var message = $"The {enemy.Name} uses a {attack.Type} attack and deals {damageReceived} damage. ";

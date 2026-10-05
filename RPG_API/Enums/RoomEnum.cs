@@ -5,5 +5,6 @@ public enum RoomType
     Normal,
     Combat,
     Treasure,
+    Rest,
     Exit
 }

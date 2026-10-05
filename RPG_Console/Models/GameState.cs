@@ -29,26 +29,8 @@ public class GameState
     public PlayerState? Player { get; set; }
     public EnemyState? Enemy { get; set; }
     public List<ItemState> Inventory { get; set; } = new();
-    public MapState Map { get; set; } = new();
-}
-
-public class MapState
-{
-    public int Width { get; set; }
-    public int Height { get; set; }
-    public int PlayerX { get; set; }
-    public int PlayerY { get; set; }
-    public List<MapTileState> Tiles { get; set; } = new();
-}
-
-public class MapTileState
-{
-    public int X { get; set; }
-    public int Y { get; set; }
-    public bool IsVisited { get; set; }
-    public bool IsCurrent { get; set; }
-    public bool IsTreasure { get; set; }
-    public bool IsExit { get; set; }
+    public int CurrentLevel { get; set; }
+    public string CurrentRoomType { get; set; } = "";
 }
 
 public class EnemyState
@@ -66,7 +48,7 @@ public class ItemState
     public string Name { get; set; } = "";
     public string Type { get; set; } = "";
     public int Amount { get; set; }
-    public int Value { get; set; }
+    public int AttackBonus { get; set; }
     public bool IsEquipped { get; set; }
     public bool CanEquip { get; set; }
 }

@@ -1,6 +1,7 @@
-using Game.Api.Models;
 using Game.Api.Features.Game;
+using Game.Api.Models;
 using Game.Domain;
+using Game.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using GameEntity = Game.Domain.Entities.Game;
 
@@ -17,7 +18,7 @@ public class MovementService
         _gameState = gameState;
     }
 
-    public async Task<GameResponse> MoveAsync(int gameId, MoveDirection direction)
+    public async Task<GameResponse> MoveAsync(int gameId)
     {
         var game = await _gameState.LoadAsync(gameId);
         _gameState.EnsureActive(game);
@@ -25,25 +26,35 @@ public class MovementService
         if (game.CurrentEnemy is not null)
             throw new InvalidOperationException("You must finish the current combat first.");
 
-        var nextPosition = GetNextPosition(game.PositionX, game.PositionY, direction);
-        game.PositionX = nextPosition.X;
-        game.PositionY = nextPosition.Y;
-        game.CurrentLocation = $"Room ({game.PositionX}, {game.PositionY})";
-        AddVisitedRoom(game);
+        game.CurrentLevel++;
+        game.CurrentLocation = $"Level {game.CurrentLevel}";
+        var message = $"You continue to {game.CurrentLocation}.";
 
-        var message = $"You move to {game.CurrentLocation}.";
-
-        if (game.PositionX == 4 && game.PositionY == 4)
+        if (game.CurrentLevel == 10)
         {
             game.CurrentRoomType = RoomType.Exit;
             game.IsFinished = true;
             game.IsWon = true;
-            message += " You found the exit and won the game!";
-
-            await _context.SaveChangesAsync();
-            return _gameState.CreateResponse(game, message);
+            message += " You reached the exit and won the game!";
+        }
+        else if (IsRestLevel(game.CurrentLevel))
+        {
+            game.CurrentRoomType = RoomType.Rest;
+            game.Player.Health = game.Player.MaxHealth;
+            message += " You found a rest site and recovered all health.";
+        }
+        else
+        {
+            await CreateRandomRoomAsync(game, message);
+            message = CreateRoomMessage(game, message);
         }
 
+        await _context.SaveChangesAsync();
+        return _gameState.CreateResponse(game, message);
+    }
+
+    private async Task CreateRandomRoomAsync(GameEntity game, string message)
+    {
         var roomType = ChooseRoomType();
         game.CurrentRoomType = roomType;
 
@@ -53,47 +64,57 @@ public class MovementService
             var enemy = enemies[Random.Shared.Next(enemies.Count)];
             game.CurrentEnemy = enemy;
             game.CurrentEnemyHealth = enemy.MaxHealth;
-            message += $" A {enemy.Name} appears!";
         }
 
         if (roomType == RoomType.Treasure)
         {
-            game.Player.Gold += 10;
-            AddTreasureRoom(game);
-            message += " You found a treasure room and gained 10 gold!";
+            var treasureItem = await FindTreasureItemAsync();
+            AddItemToPlayer(game, treasureItem);
         }
-
-        await _context.SaveChangesAsync();
-        return _gameState.CreateResponse(game, message);
     }
 
-    private static (int X, int Y) GetNextPosition(int currentX, int currentY, MoveDirection direction)
+    private static string CreateRoomMessage(GameEntity game, string message)
     {
-        var nextPosition = (X: currentX, Y: currentY);
+        if (game.CurrentRoomType == RoomType.Combat && game.CurrentEnemy is not null)
+            return $"{message} A {game.CurrentEnemy.Name} appears!";
 
-        switch (direction)
+        if (game.CurrentRoomType == RoomType.Treasure)
         {
-            case MoveDirection.Up:
-                nextPosition.Y--;
-                break;
-            case MoveDirection.Down:
-                nextPosition.Y++;
-                break;
-            case MoveDirection.Left:
-                nextPosition.X--;
-                break;
-            case MoveDirection.Right:
-                nextPosition.X++;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(direction));
+            var newestItem = game.Player.Items.OrderByDescending(item => item.ItemId).First();
+            return $"{message} You found a treasure room and received a {newestItem.Item.Name}!";
         }
 
-        if (nextPosition.X < 0 || nextPosition.X > 4
-            || nextPosition.Y < 0 || nextPosition.Y > 4)
-            throw new InvalidOperationException("You cannot move outside the map.");
+        return message;
+    }
 
-        return nextPosition;
+    private async Task<Item> FindTreasureItemAsync()
+    {
+        var items = await _context.Items.ToListAsync();
+        return items[Random.Shared.Next(items.Count)];
+    }
+
+    private static void AddItemToPlayer(GameEntity game, Item treasureItem)
+    {
+        var existingItem = game.Player.Items.FirstOrDefault(item => item.ItemId == treasureItem.Id);
+
+        if (existingItem is not null)
+        {
+            existingItem.Amount++;
+            return;
+        }
+
+        game.Player.Items.Add(new PlayerItem
+        {
+            PlayerId = game.PlayerId,
+            ItemId = treasureItem.Id,
+            Item = treasureItem,
+            Amount = 1
+        });
+    }
+
+    private static bool IsRestLevel(int level)
+    {
+        return level == 3 || level == 6 || level == 9;
     }
 
     private static RoomType ChooseRoomType()
@@ -106,27 +127,5 @@ public class MovementService
             return RoomType.Combat;
 
         return RoomType.Normal;
-    }
-
-    private static void AddVisitedRoom(GameEntity game)
-    {
-        var coordinate = $"{game.PositionX},{game.PositionY}";
-        var visitedRooms = game.VisitedRooms.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList();
-
-        if (!visitedRooms.Contains(coordinate))
-            visitedRooms.Add(coordinate);
-
-        game.VisitedRooms = string.Join(';', visitedRooms);
-    }
-
-    private static void AddTreasureRoom(GameEntity game)
-    {
-        var coordinate = $"{game.PositionX},{game.PositionY}";
-        var treasureRooms = game.TreasureRooms.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList();
-
-        if (!treasureRooms.Contains(coordinate))
-            treasureRooms.Add(coordinate);
-
-        game.TreasureRooms = string.Join(';', treasureRooms);
     }
 }

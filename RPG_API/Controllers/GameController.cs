@@ -36,9 +36,9 @@ public class GameController : ControllerBase
     }
 
     [HttpPost("{id}/move")]
-    public async Task<ActionResult<GameResponse>> Move(int id, MoveRequest request)
+    public async Task<ActionResult<GameResponse>> Move(int id)
     {
-        var game = await _gameService.MoveAsync(id, request.Direction);
+        var game = await _gameService.MoveAsync(id);
         return Ok(game);
     }
 

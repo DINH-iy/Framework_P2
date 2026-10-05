@@ -31,7 +31,7 @@ MySQL: ConsoleGame
 
 De console is verantwoordelijk voor invoer, menu's, HTTP-aanroepen en het
 tekenen van het spel. De API is verantwoordelijk voor regels, encounters,
-combat, items, map, winconditie en het opslaan van de game state.
+combat, levels, items, winconditie en het opslaan van de game state.
 
 ## Leerroute: negen weken
 
@@ -108,11 +108,12 @@ console.
 **Bouw:**
 
 - Voeg `GET /api/game/{id}` toe.
-- Voeg een kleine 5x5 map toe.
-- Sla de positie en bezochte kamers op.
-- Maak een submenu voor omhoog, omlaag, links en rechts.
+- Voeg tien opeenvolgende levels toe.
+- Voeg rustplaatsen toe waar de speler volledig geneest.
+- Laat de API bepalen wat er op het volgende level gebeurt.
 
-**Eindresultaat:** de speler kan bewegen en de console toont de huidige map.
+**Eindresultaat:** de speler kan doorgaan naar het volgende level en ziet de
+huidige level- en roomstatus.
 
 ### Week 6 - Enemies en combat
 
@@ -156,7 +157,7 @@ console.
 - Voeg request-logging middleware toe.
 - Sla methode, route, status en duur op in `ApiRequestLogs`.
 - Zorg dat API-fouten begrijpelijke berichten teruggeven.
-- Test foutgevallen zoals een ongeldige game of beweging buiten de map.
+- Test foutgevallen zoals een ongeldige game of een actie tijdens combat.
 
 **Eindresultaat:** de API is beter te volgen en fouten crashen de console niet
 onnodig.
@@ -256,7 +257,7 @@ dotnet ef migrations add MigrationName --project .\RPG_API --startup-project .\R
 | `POST` | `/api/game` | Nieuwe game starten |
 | `GET` | `/api/game` | Opgeslagen games bekijken |
 | `GET` | `/api/game/{id}` | Game state ophalen |
-| `POST` | `/api/game/{id}/move` | In een richting bewegen |
+| `POST` | `/api/game/{id}/move` | Doorgaan naar het volgende level |
 | `POST` | `/api/game/{id}/attack` | Light of heavy attack uitvoeren |
 | `POST` | `/api/game/{id}/run` | Combat verlaten |
 | `POST` | `/api/game/{id}/items/{slot}/use` | Item gebruiken |
@@ -267,6 +268,6 @@ dotnet ef migrations add MigrationName --project .\RPG_API --startup-project .\R
 
 Dit project bevat geen multiplayer, accounts, JWT, webfrontend, complexe AI,
 quests, crafting, meerdere verdiepingen of procedural dungeon generation.
-De map, combat, inventory en inheritance zijn al voldoende extra leerstof voor
+De levels, combat, inventory en inheritance zijn al voldoende extra leerstof voor
 de beschikbare tijd. Voeg pas nieuwe features toe als de volledige minimale
 game loop werkt.

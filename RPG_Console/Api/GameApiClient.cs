@@ -36,11 +36,9 @@ public class GameApiClient
         return await ReadGameStateAsync(response);
     }
 
-    public async Task<GameState> MoveAsync(int gameId, string direction)
+    public async Task<GameState> MoveAsync(int gameId)
     {
-        var response = await _httpClient.PostAsJsonAsync(
-            $"api/game/{gameId}/move",
-            new { Direction = direction });
+        var response = await _httpClient.PostAsync($"api/game/{gameId}/move", null);
         return await ReadGameStateAsync(response);
     }
 

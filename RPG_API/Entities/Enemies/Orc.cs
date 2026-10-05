@@ -9,7 +9,5 @@ public class Orc : Enemy
         Health = 70;
         Damage = 14;
         Speed = 6;
-        RewardGold = 30;
-        RewardExperience = 40;
     }
 }

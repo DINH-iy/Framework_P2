@@ -30,7 +30,8 @@ public class InventoryService
         if (playerItem.Item.Type != ItemType.Healing)
             throw new InvalidOperationException("That item cannot be used yet.");
 
-        game.Player.Health = Math.Min(game.Player.MaxHealth, game.Player.Health + playerItem.Item.Value);
+        const int healthPotionRecovery = 25;
+        game.Player.Health = Math.Min(game.Player.MaxHealth, game.Player.Health + healthPotionRecovery);
         playerItem.Amount--;
         await _context.SaveChangesAsync();
 
@@ -74,7 +75,7 @@ public class InventoryService
                 Name = item.Item.Name,
                 Type = item.Item.Type.ToString(),
                 Amount = item.Amount,
-                Value = item.Item.Value,
+                AttackBonus = item.Item.AttackBonus,
                 Speed = item.Item.Speed,
                 IsEquipped = item.IsEquipped,
                 CanEquip = true

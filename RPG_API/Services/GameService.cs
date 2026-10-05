@@ -42,9 +42,9 @@ public class GameService
         return game;
     }
 
-    public async Task<GameResponse> MoveAsync(int gameId, MoveDirection direction)
+    public async Task<GameResponse> MoveAsync(int gameId)
     {
-        var game = await _movement.MoveAsync(gameId, direction);
+        var game = await _movement.MoveAsync(gameId);
         return game;
     }
 

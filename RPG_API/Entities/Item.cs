@@ -10,7 +10,7 @@ public class Item
     public int Id { get; set; }
     public required string Name { get; set; }
     public required ItemType Type { get; set; }
-    public int Value { get; set; }
+    public int AttackBonus { get; set; }
     public int Speed { get; set; }
 
     [InverseProperty(nameof(PlayerItem.Item))]

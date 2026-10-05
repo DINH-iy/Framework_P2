@@ -9,7 +9,5 @@ public class Goblin : Enemy
         Health = 30;
         Damage = 6;
         Speed = 14;
-        RewardGold = 15;
-        RewardExperience = 15;
     }
 }

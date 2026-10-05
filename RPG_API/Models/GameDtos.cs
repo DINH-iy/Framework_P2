@@ -5,11 +5,6 @@ public class AttackRequest
     public AttackType Type { get; set; }
 }
 
-public class MoveRequest
-{
-    public MoveDirection Direction { get; set; }
-}
-
 public class EquipItemRequest
 {
     public int Selection { get; set; }
@@ -25,6 +20,7 @@ public class GameSummaryResponse
     public int Id { get; set; }
     public string PlayerName { get; set; } = "";
     public string CurrentLocation { get; set; } = "";
+    public int CurrentLevel { get; set; }
     public int Health { get; set; }
     public int MaxHealth { get; set; }
     public bool IsFinished { get; set; }
@@ -35,6 +31,8 @@ public class GameResponse
 {
     public int Id { get; set; }
     public string CurrentLocation { get; set; } = "";
+    public int CurrentLevel { get; set; }
+    public string CurrentRoomType { get; set; } = "";
     public int? CurrentEnemyId { get; set; }
     public bool IsFinished { get; set; }
     public bool IsWon { get; set; }
@@ -46,26 +44,6 @@ public class GameResponse
     public PlayerResponse Player { get; set; } = new();
     public EnemyResponse? Enemy { get; set; }
     public List<ItemResponse> Inventory { get; set; } = new();
-    public MapResponse Map { get; set; } = new();
-}
-
-public class MapResponse
-{
-    public int Width { get; set; }
-    public int Height { get; set; }
-    public int PlayerX { get; set; }
-    public int PlayerY { get; set; }
-    public List<MapTileResponse> Tiles { get; set; } = new();
-}
-
-public class MapTileResponse
-{
-    public int X { get; set; }
-    public int Y { get; set; }
-    public bool IsVisited { get; set; }
-    public bool IsCurrent { get; set; }
-    public bool IsTreasure { get; set; }
-    public bool IsExit { get; set; }
 }
 
 public class PlayerResponse
@@ -73,10 +51,7 @@ public class PlayerResponse
     public string Name { get; set; } = "";
     public int Health { get; set; }
     public int MaxHealth { get; set; }
-    public int Gold { get; set; }
-    public int Experience { get; set; }
     public int Attack { get; set; }
-    public int Defense { get; set; }
 }
 
 public class EnemyResponse
@@ -96,7 +71,7 @@ public class ItemResponse
     public string Name { get; set; } = "";
     public string Type { get; set; } = "";
     public int Amount { get; set; }
-    public int Value { get; set; }
+    public int AttackBonus { get; set; }
     public int Speed { get; set; }
     public bool IsEquipped { get; set; }
     public bool CanEquip { get; set; }

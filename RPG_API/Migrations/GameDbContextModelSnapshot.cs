@@ -4,19 +4,16 @@ using Game.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace RPG_API.Database.Migrations
+namespace RPG_API.Migrations
 {
     [DbContext(typeof(GameDbContext))]
-    [Migration("20261001112004_AddApiRequestLogs")]
-    partial class AddApiRequestLogs
+    partial class GameDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,12 +84,6 @@ namespace RPG_API.Database.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("RewardExperience")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RewardGold")
-                        .HasColumnType("int");
-
                     b.Property<int>("Speed")
                         .HasColumnType("int");
 
@@ -119,6 +110,9 @@ namespace RPG_API.Database.Migrations
                     b.Property<int?>("CurrentEnemyId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CurrentLevel")
+                        .HasColumnType("int");
+
                     b.Property<string>("CurrentLocation")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -134,20 +128,6 @@ namespace RPG_API.Database.Migrations
 
                     b.Property<int>("PlayerId")
                         .HasColumnType("int");
-
-                    b.Property<int>("PositionX")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PositionY")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TreasureRooms")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("VisitedRooms")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -166,6 +146,9 @@ namespace RPG_API.Database.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AttackBonus")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -176,9 +159,6 @@ namespace RPG_API.Database.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<int>("Value")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("Items");
@@ -187,18 +167,18 @@ namespace RPG_API.Database.Migrations
                         new
                         {
                             Id = 1,
+                            AttackBonus = 0,
                             Name = "Health Potion",
                             Speed = 0,
-                            Type = 2,
-                            Value = 25
+                            Type = 1
                         },
                         new
                         {
                             Id = 2,
+                            AttackBonus = 4,
                             Name = "Iron Sword",
                             Speed = 3,
-                            Type = 3,
-                            Value = 4
+                            Type = 2
                         });
                 });
 
@@ -211,15 +191,6 @@ namespace RPG_API.Database.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Attack")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Defense")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Experience")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Gold")
                         .HasColumnType("int");
 
                     b.Property<int>("Health")
@@ -272,8 +243,6 @@ namespace RPG_API.Database.Migrations
                             Health = 30,
                             MaxHealth = 30,
                             Name = "Goblin",
-                            RewardExperience = 15,
-                            RewardGold = 15,
                             Speed = 14
                         });
                 });
@@ -292,8 +261,6 @@ namespace RPG_API.Database.Migrations
                             Health = 70,
                             MaxHealth = 70,
                             Name = "Orc",
-                            RewardExperience = 40,
-                            RewardGold = 30,
                             Speed = 6
                         });
                 });
@@ -312,8 +279,6 @@ namespace RPG_API.Database.Migrations
                             Health = 40,
                             MaxHealth = 40,
                             Name = "Skeleton",
-                            RewardExperience = 20,
-                            RewardGold = 10,
                             Speed = 10
                         });
                 });

@@ -19,6 +19,8 @@ public class GameResponseMapper
         {
             Id = game.Id,
             CurrentLocation = game.CurrentLocation,
+            CurrentLevel = game.CurrentLevel,
+            CurrentRoomType = game.CurrentRoomType.ToString(),
             CurrentEnemyId = game.CurrentEnemyId,
             IsFinished = game.IsFinished,
             IsWon = game.IsWon,
@@ -32,16 +34,12 @@ public class GameResponseMapper
                 Name = game.Player.Name,
                 Health = game.Player.Health,
                 MaxHealth = game.Player.MaxHealth,
-                Gold = game.Player.Gold,
-                Experience = game.Player.Experience,
-                Attack = game.Player.Attack,
-                Defense = game.Player.Defense
+                Attack = game.Player.Attack
             }
         };
 
         AddEnemyToResponse(game, response);
         AddInventoryToResponse(game, response);
-        response.Map = CreateMap(game);
 
         return response;
     }
@@ -79,7 +77,7 @@ public class GameResponseMapper
                 Name = item.Item.Name,
                 Type = item.Item.Type.ToString(),
                 Amount = item.Amount,
-                Value = item.Item.Value,
+                AttackBonus = item.Item.AttackBonus,
                 Speed = item.Item.Speed,
                 IsEquipped = item.IsEquipped,
                 CanEquip = item.Item.Type == ItemType.Equipment
@@ -87,42 +85,4 @@ public class GameResponseMapper
         }
     }
 
-    private static MapResponse CreateMap(GameEntity game)
-    {
-        var visitedRooms = ReadCoordinates(game.VisitedRooms);
-        var treasureRooms = ReadCoordinates(game.TreasureRooms);
-        var map = new MapResponse
-        {
-            Width = 5,
-            Height = 5,
-            PlayerX = game.PositionX,
-            PlayerY = game.PositionY
-        };
-
-        for (var y = 0; y < map.Height; y++)
-        {
-            for (var x = 0; x < map.Width; x++)
-            {
-                var coordinate = $"{x},{y}";
-                map.Tiles.Add(new MapTileResponse
-                {
-                    X = x,
-                    Y = y,
-                    IsVisited = visitedRooms.Contains(coordinate),
-                    IsCurrent = x == game.PositionX && y == game.PositionY,
-                    IsTreasure = treasureRooms.Contains(coordinate),
-                    IsExit = x == 4 && y == 4
-                });
-            }
-        }
-
-        return map;
-    }
-
-    private static HashSet<string> ReadCoordinates(string coordinates)
-    {
-        return coordinates
-            .Split(';', StringSplitOptions.RemoveEmptyEntries)
-            .ToHashSet();
-    }
 }

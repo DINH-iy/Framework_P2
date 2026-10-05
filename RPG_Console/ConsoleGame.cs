@@ -112,9 +112,7 @@ public class ConsoleGame
         switch (option)
         {
             case 1:
-                ConsoleRenderer.ShowMovementMenu();
-                var direction = ReadDirection();
-                var movedGame = await _gameApi.MoveAsync(game.Id, direction);
+                var movedGame = await _gameApi.MoveAsync(game.Id);
                 return new GameTurnResult(movedGame, true);
 
             case 2:
@@ -205,25 +203,6 @@ public class ConsoleGame
             return 0;
 
         return ConsoleInput.ReadOption(game.Inventory.Count);
-    }
-
-    private static string ReadDirection()
-    {
-        var option = ConsoleInput.ReadOption(4);
-
-        switch (option)
-        {
-            case 1:
-                return "Up";
-            case 2:
-                return "Down";
-            case 3:
-                return "Left";
-            case 4:
-                return "Right";
-            default:
-                return "Up";
-        }
     }
 
     private static bool ShowStatus(GameState game)

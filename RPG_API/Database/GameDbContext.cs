@@ -22,7 +22,7 @@ public class GameDbContext : DbContext
         modelBuilder.Entity<Orc>().HasData(new Orc { Id = 3 });
 
         modelBuilder.Entity<Item>().HasData(
-            new Item { Id = 1, Name = "Health Potion", Type = ItemType.Healing, Value = 25, Speed = 0 },
-            new Item { Id = 2, Name = "Iron Sword", Type = ItemType.Equipment, Value = 4, Speed = 3 });
+            new Item { Id = 1, Name = "Health Potion", Type = ItemType.Healing, AttackBonus = 0, Speed = 0 },
+            new Item { Id = 2, Name = "Iron Sword", Type = ItemType.Equipment, AttackBonus = 4, Speed = 3 });
     }
 }

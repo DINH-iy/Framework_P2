@@ -13,10 +13,7 @@ public class Game
     public int PlayerId { get; set; }
     public virtual Player Player { get; set; } = null!;
     public string CurrentLocation { get; set; } = "";
-    public int PositionX { get; set; } = 2;
-    public int PositionY { get; set; } = 2;
-    public string VisitedRooms { get; set; } = "2,2";
-    public string TreasureRooms { get; set; } = "";
+    public int CurrentLevel { get; set; } = 1;
     public RoomType CurrentRoomType { get; set; } = RoomType.Normal;
 
     [ForeignKey(nameof(CurrentEnemy))]
