@@ -44,9 +44,7 @@ public class GameApiClient
 
     public async Task<GameState> AttackAsync(int gameId, string attackType)
     {
-        var response = await _httpClient.PostAsJsonAsync(
-            $"api/game/{gameId}/attack",
-            new { Type = attackType });
+        var response = await _httpClient.PostAsJsonAsync($"api/game/{gameId}/attack",new { Type = attackType });
         return await ReadGameStateAsync(response);
     }
 

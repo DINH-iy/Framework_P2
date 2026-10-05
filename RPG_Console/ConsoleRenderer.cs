@@ -146,6 +146,6 @@ public static class ConsoleRenderer
         var filledSize = maxHealth == 0 ? 0 : health * barSize / maxHealth;
         var filled = new string('#', filledSize);
         var empty = new string('-', barSize - filledSize);
-        Console.WriteLine($"[{filled}{empty}]");
+        Console.WriteLine($"[{filled}{empty}]"); 
     }
 }
