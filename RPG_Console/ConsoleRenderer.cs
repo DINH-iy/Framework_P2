@@ -100,9 +100,8 @@ public static class ConsoleRenderer
     private static void DrawExplorationMenu()
     {
         Console.WriteLine("1. Continue to next level");
-        Console.WriteLine("2. View inventory");
-        Console.WriteLine("3. View status");
-        Console.WriteLine("4. Stop game");
+        Console.WriteLine("2. View status");
+        Console.WriteLine("3. Stop game");
     }
 
     private static void DrawPanelTitle(string title)
@@ -110,18 +109,6 @@ public static class ConsoleRenderer
         Console.WriteLine("+-----------------------------------------------+");
         Console.WriteLine($"| {title,-45}|");
         Console.WriteLine("+-----------------------------------------------+");
-    }
-
-    public static void ShowEquipableItems(List<ItemState> items)
-    {
-        Console.WriteLine("+-----------------------------------------------+");
-        Console.WriteLine("| EQUIPABLE ITEMS                               |");
-        Console.WriteLine("+-----------------------------------------------+");
-        foreach (var item in items)
-        {
-            var equippedText = item.IsEquipped ? " (equipped)" : "";
-            Console.WriteLine($"{item.Selection}. {item.Name} x{item.Amount}{equippedText}");
-        }
     }
 
     public static void ShowStatus(GameState game)
