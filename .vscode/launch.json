@@ -13,7 +13,7 @@
             },
             "console": "integratedTerminal",
             "stopAtEntry": false,
-            "preLaunchTask": "build-api"
+            "preLaunchTask": "prepare-api"
         },
         {
             "name": ".NET Launch Console",
@@ -21,7 +21,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/RPG_Console/bin/Debug/net10.0/RPG_Console.dll",
             "cwd": "${workspaceFolder}/RPG_Console",
-            "console": "externalTerminal",
+            "console": "integratedTerminal",
             "stopAtEntry": false,
             "preLaunchTask": "build-console"
         }

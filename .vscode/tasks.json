@@ -4,7 +4,7 @@
         {
             "label": "build-api",
             "type": "process",
-            "command": "dotnet",
+            "command": "/Users/dinnyvanhuizen/.dotnet/dotnet",
             "args": [
                 "build",
                 "${workspaceFolder}/RPG_API/RPG_API.csproj"
@@ -15,13 +15,48 @@
         {
             "label": "build-console",
             "type": "process",
-            "command": "dotnet",
+            "command": "/Users/dinnyvanhuizen/.dotnet/dotnet",
             "args": [
                 "build",
                 "${workspaceFolder}/RPG_Console/RPG_Console.csproj"
             ],
             "problemMatcher": "$msCompile",
             "group": "build"
+        },
+        {
+            "label": "start-db",
+            "type": "process",
+            "command": "/bin/bash",
+            "args": [
+                "/Users/dinnyvanhuizen/MBO-U/.services/mysql/start.sh"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "migrate-db",
+            "type": "process",
+            "command": "/Users/dinnyvanhuizen/.dotnet/dotnet",
+            "args": [
+                "ef",
+                "database",
+                "update",
+                "--project",
+                "RPG_API/RPG_API.csproj"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOn": "start-db",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "prepare-api",
+            "dependsOn": [
+                "start-db",
+                "build-api"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
         }
     ]
 }
