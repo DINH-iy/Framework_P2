@@ -130,23 +130,7 @@ huidige level- en roomstatus.
 
 **Eindresultaat:** een volledige turn-based combatronde werkt via de API.
 
-### Week 7 - Items en inventory
-
-**Startpunt:** de speler kan vechten en rewards ontvangen.
-
-**Nieuwe concepten:** many-to-many relaties en DTO's.
-
-**Bouw:**
-
-- Voeg `Item` en `PlayerItem` toe.
-- Beperk de inventory tot vier slots.
-- Voeg een health potion toe.
-- Voeg een equipable sword toe.
-- Laat de API bepalen welke items gebruikt of uitgerust mogen worden.
-
-**Eindresultaat:** items werken zowel binnen als buiten combat.
-
-### Week 8 - Fouten en logging
+### Week 7 - Fouten en logging
 
 **Startpunt:** de volledige game loop werkt.
 
@@ -162,7 +146,7 @@ huidige level- en roomstatus.
 **Eindresultaat:** de API is beter te volgen en fouten crashen de console niet
 onnodig.
 
-### Week 9 - Winnen en afronden
+### Week 8 - Winnen en afronden
 
 **Startpunt:** alle minimale gameplay werkt.
 
